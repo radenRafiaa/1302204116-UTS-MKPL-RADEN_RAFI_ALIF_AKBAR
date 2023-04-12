@@ -17,7 +17,7 @@ public class TaxFunction {
 	 * 
 	 */
 	
-	
+
 	public static int calculateTax(EmployeeData employeeData) {
         int numberOfMonthWorking = employeeData.getNumberOfMonthWorking();
         if (numberOfMonthWorking > 12) {
