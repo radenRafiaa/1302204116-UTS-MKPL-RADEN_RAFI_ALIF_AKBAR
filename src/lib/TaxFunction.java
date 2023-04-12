@@ -1,7 +1,10 @@
 package lib;
 
 public class TaxFunction {
-
+	private static final int Max_Children = 3;
+    private static final int Married_Tax_Threshold = 4500000;
+    private static final int Child_Tax_Threshold = 1500000;
+    private static final int Default_Tax_Threshold = 54000000;
 	
 	/**
 	 * Fungsi untuk menghitung jumlah pajak penghasilan pegawai yang harus dibayarkan setahun.
