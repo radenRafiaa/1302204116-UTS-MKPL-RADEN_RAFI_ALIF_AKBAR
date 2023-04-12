@@ -19,35 +19,33 @@ public class TaxFunction {
 	
 	
 	public static int calculateTax(EmployeeData employeeData) {
-		int numberOfMonthWorking = employeeData.getNumberOfMonthWorking();
-		int monthlySalary = employeeData.getMonthlySalary();
-        int otherMonthlyIncome = employeeData.getOtherMonthlyIncome();
-        int deductible = employeeData.getDeductible();
-        boolean isMarried = employeeData.isMarried();
-		int numberOfChildren = employeeData.getNumberOfChildren();
-		
-		if (numberOfMonthWorking > 12) {
+        int numberOfMonthWorking = employeeData.getNumberOfMonthWorking();
+        if (numberOfMonthWorking > 12) {
             System.err.println("More than 12 month working per year");
             return 0;
         }
-		
-		if (numberOfChildren > MAX_CHILDREN) {
-            numberOfChildren = MAX_CHILDREN;
-        }
-		
-		if (isMarried) {
-			tax = (int) Math.round(0.05 * (((monthlySalary + otherMonthlyIncome) * numberOfMonthWorking) - deductible - (54000000 + 4500000 + (numberOfChildren * 1500000))));
-		}else {
-			tax = (int) Math.round(0.05 * (((monthlySalary + otherMonthlyIncome) * numberOfMonthWorking) - deductible - 54000000));
-		}
-		
-		if (tax < 0) {
-			return 0;
-		}else {
-			return tax;
-		}
-			 
-	}
-	
-}
 
+        int monthlySalary = employeeData.getMonthlySalary();
+        int otherMonthlyIncome = employeeData.getOtherMonthlyIncome();
+        int deductible = employeeData.getDeductible();
+        boolean isMarried = employeeData.isMarried();
+        int numberOfChildren = employeeData.getNumberOfChildren();
+        if (numberOfChildren > Max_Children) {
+            numberOfChildren = Max_Children;
+        }
+
+        int taxThreshold = Default_Tax_Threshold;
+        if (isMarried) {
+            taxThreshold += Married_Tax_Threshold;
+        }
+        taxThreshold += numberOfChildren * Child_Tax_Threshold;
+
+        int netIncome = (monthlySalary + otherMonthlyIncome) * numberOfMonthWorking - deductible;
+        int taxableIncome = netIncome - taxThreshold;
+        if (taxableIncome < 0) {
+            return 0;
+        }
+
+        return (int) Math.floor(0.05 * taxableIncome);
+    }
+}
