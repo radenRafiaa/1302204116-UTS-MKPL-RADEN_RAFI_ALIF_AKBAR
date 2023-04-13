@@ -91,22 +91,18 @@ public class Employee {
 	 */
 	
 	public void setMonthlySalary(int grade) {	
+	this.monthlySalary = calculateSalary(grade, isForeigner);
+}
+
+	private double calculateSalary(int grade, boolean isForeigner) {
 		if (grade == 1) {
-			monthlySalary = 3000000;
-			if (isForeigner) {
-				monthlySalary = (int) (3000000 * 1.5);
-			}
-		}else if (grade == 2) {
-			monthlySalary = 5000000;
-			if (isForeigner) {
-				monthlySalary = (int) (3000000 * 1.5);
-			}
-		}else if (grade == 3) {
-			monthlySalary = 7000000;
-			if (isForeigner) {
-				monthlySalary = (int) (3000000 * 1.5);
-			}
+			return isForeigner ? 4500000 : 3000000;
+		} else if (grade == 2) {
+			return isForeigner ? 7500000 : 5000000;
+		} else if (grade == 3) {
+			return isForeigner ? 10500000 : 7000000;
 		}
+		return 0;
 	}
 	
 	public void setAnnualDeductible(int deductible) {	
@@ -138,16 +134,26 @@ public class Employee {
     }
 	
 	public int getAnnualIncomeTax() {
-		
-		//Menghitung berapa lama pegawai bekerja dalam setahun ini, jika pegawai sudah bekerja dari tahun sebelumnya maka otomatis dianggap 12 bulan.
-		LocalDate date = LocalDate.now();
-		
-		if (date.getYear() == yearJoined) {
-			monthWorkingInYear = date.getMonthValue() - monthJoined;
-		}else {
-			monthWorkingInYear = 12;
+		int monthWorkingInYear = calculateMonthWorkingInYear();
+		double taxableIncome = calculateTaxableIncome();
+		this.annualIncomeTax = TaxFunction.calculateTax(taxableIncome, monthWorkingInYear);
+		return annualIncomeTax;
+	}
+
+	private int calculateMonthWorkingInYear() {
+		LocalDate now = LocalDate.now();
+		return now.getYear() == dateJoined.getYear() ? now.getMonthValue() - dateJoined.getMonthValue() : 12;
+	}
+
+	//Menghitung berapa lama pegawai bekerja dalam setahun ini, jika pegawai sudah bekerja dari tahun sebelumnya maka otomatis dianggap 12 bulan.
+	private double calculateTaxableIncome() {
+		double totalIncome = monthlySalary + otherMonthlyIncome;
+		if (spouse != null) {
+			totalIncome += employees.getSpouseAdditionalIncome();
 		}
-		
-		return TaxFunction.calculateTax(monthlySalary, otherMonthlyIncome, monthWorkingInYear, annualDeductible, spouseIdNumber.equals(""), childIdNumbers.size());
+		if (!childNames.isEmpty()) {
+			totalIncome += employees.getChildAdditionalIncome() * childNames.size();
+		}
+		return totalIncome * 12 - employees.getAnnualDeductible();
 	}
 }
