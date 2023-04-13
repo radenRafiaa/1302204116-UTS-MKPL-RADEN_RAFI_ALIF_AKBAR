@@ -56,14 +56,40 @@ public class Employee {
 	}
 
 	public class Spouse {
-		private String name;
-		private String idNumber;
+        private String name;
+        private String idNumber;
 
-		public Spouse(String name, String idNumber) {
-			this.name = name;
-			this.idNumber = idNumber;
-		}
-	}
+        public Spouse(String name, String idNumber) {
+            this.name = name;
+            this.idNumber = idNumber;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getIdNumber() {
+            return idNumber;
+        }
+    }
+
+	public class Child {
+        private String name;
+        private String idNumber;
+
+        public Child(String name, String idNumber) {
+            this.name = name;
+            this.idNumber = idNumber;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getIdNumber() {
+            return idNumber;
+        }
+    }
 	
 	/**
 	 * Fungsi untuk menentukan gaji bulanan pegawai berdasarkan grade kepegawaiannya (grade 1: 3.000.000 per bulan, grade 2: 5.000.000 per bulan, grade 3: 7.000.000 per bulan)
@@ -93,19 +119,29 @@ public class Employee {
 		this.annualDeductible = deductible;
 	}
 	
-	public void setAdditionalIncome(int income) {	
+	public void setOtherMonthlyIncome(int income) {	
 		this.otherMonthlyIncome = income;
 	}
 	
-	public void setSpouse(String spouseName, String spouseIdNumber) {
+	public String getSpouseName() {
+		return spouseName;
+	}
+	
+	public void setSpouseName(String spouseName) {
 		this.spouseName = spouseName;
-		this.spouseIdNumber = idNumber;
+	}
+	
+	public String getSpouseIdNumber() {
+		return spouseIdNumber;
+	}
+	
+	public void setSpouseIdNumber(String spouseIdNumber) {
+		this.spouseIdNumber = spouseIdNumber;
 	}
 	
 	public void addChild(String childName, String childIdNumber) {
-		childNames.add(childName);
-		childIdNumbers.add(childIdNumber);
-	}
+        children.add(new Child(childName, childIdNumber));
+    }
 	
 	public int getAnnualIncomeTax() {
 		
