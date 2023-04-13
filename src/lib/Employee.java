@@ -6,19 +6,20 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Employee {
-
-	private EmployeeId employeeId;
-	private Name name;
-	private IdNumber idNumber;
-	private Address address;
-	private JoinDate joinDate;
+	private EmployeeClass employees
+	private LocalDate dateJoined;
+	private boolean isForeigner;
 	private Gender gender; //true = Laki-laki, false = Perempuan
-	private Salary salary;
-	private Deductible deductible;
-	private Spouse spouse;
-	private List<Child> children;
-	
 
+	private double monthlySalary;
+    private double annualSalary;
+    private double annualIncomeTax;
+
+	private Spouse spouse;
+
+	private List<String> childNames;
+	private List<String> childIdNumbers;
+	
 	public Employee(String employeeId, String firstName, String lastName, String idNumber, String address, int yearJoined, int monthJoined, int dayJoined, boolean isForeigner, boolean gender) {
 		this.employeeId = employeeId;
 		this.firstName = firstName;
@@ -33,6 +34,35 @@ public class Employee {
 		
 		childNames = new LinkedList<String>();
 		childIdNumbers = new LinkedList<String>();
+	}
+
+	public enum Gender {
+		MALE, FEMALE
+	}
+	public class EmployeeClass{
+		private String employeeId;
+		private String firstName;
+		private String lastName;
+		private String idNumber;
+		private String address;
+
+		public EmployeeClass(String employeeId, String firstName,String lastName,String idNumber,String address) {
+			this.employeeId = employeeId;
+			this.firstName = firstName;
+			this.lastName = lastName;
+			this.idNumber = idNumber;
+			this.address = address;
+		}
+	}
+
+	public class Spouse {
+		private String name;
+		private String idNumber;
+
+		public Spouse(String name, String idNumber) {
+			this.name = name;
+			this.idNumber = idNumber;
+		}
 	}
 	
 	/**
